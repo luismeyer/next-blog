@@ -1,4 +1,5 @@
 import { kv } from "@vercel/kv";
+import { ViewCounterClient } from "./view-counter-client";
 
 type ViewCounterProps = {
   slug: string;
@@ -13,5 +14,5 @@ export async function ViewCounter({ slug, countView }: ViewCounterProps) {
     await kv.set(slug, count);
   }
 
-  return <span>Views {count}</span>;
+  return <ViewCounterClient>{count}</ViewCounterClient>;
 }
