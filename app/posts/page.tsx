@@ -7,9 +7,9 @@ import { Suspense } from "react";
 import { parseFrontMatter } from "./front-matter";
 import { ViewCounter } from "./view-counter";
 import { list } from "@vercel/blob";
+import { postsBaseUrl } from "./url";
 
 export const postsBasePath = resolve(cwd(), "./posts");
-export const postsBaseUrl = "/posts/";
 
 async function Post() {
   const { blobs } = await list();

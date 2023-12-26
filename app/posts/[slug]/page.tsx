@@ -6,8 +6,9 @@ import { Suspense } from "react";
 
 import { ClientMd } from "../client-md";
 import { parseFrontMatter } from "../front-matter";
-import { postsBasePath, postsBaseUrl } from "../page";
+import { postsBasePath } from "../page";
 import { ViewCounter } from "../view-counter";
+import { postsBaseUrl } from "../url";
 
 export default async function Slug({ params }: { params: { slug: string } }) {
   const { slug } = params;
