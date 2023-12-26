@@ -1,15 +1,11 @@
-import { readdir, readFile } from "fs/promises";
 import Link from "next/link";
 import { extname, resolve } from "path";
-import { cwd } from "process";
 import { Suspense } from "react";
 
 import { parseFrontMatter } from "./front-matter";
 import { ViewCounter } from "./view-counter";
 import { list } from "@vercel/blob";
 import { postsBaseUrl } from "./url";
-
-export const postsBasePath = resolve(cwd(), "./posts");
 
 async function Post() {
   const { blobs } = await list();

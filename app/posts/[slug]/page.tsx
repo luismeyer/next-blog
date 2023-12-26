@@ -1,19 +1,21 @@
-import { readFile } from "fs/promises";
+import { head, list } from "@vercel/blob";
 import { serialize } from "next-mdx-remote/serialize";
 import Link from "next/link";
-import { resolve } from "path";
 import { Suspense } from "react";
 
 import { ClientMd } from "../client-md";
 import { parseFrontMatter } from "../front-matter";
-import { postsBasePath } from "../page";
 import { ViewCounter } from "../view-counter";
 import { postsBaseUrl } from "../url";
 
 export default async function Slug({ params }: { params: { slug: string } }) {
   const { slug } = params;
 
-  const content = await readFile(resolve(postsBasePath, `${slug}.md`), "utf-8");
+  const {
+    blobs: [blob],
+  } = await list({ prefix: slug });
+
+  const content = await fetch(blob.url).then((res) => res.text());
 
   const [{ title, publishedAt, summary }, markdown] = parseFrontMatter(content);
 
