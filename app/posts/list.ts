@@ -1,9 +1,19 @@
 "use server";
 
-import { ListBlobResult } from "@vercel/blob";
+import { ListBlobResult, ListBlobResultBlob } from "@vercel/blob";
+
+interface ListBlobApiResponseBlob
+  extends Omit<ListBlobResultBlob, "uploadedAt"> {
+  uploadedAt: string;
+}
+
+interface ListBlobApiResponse extends Omit<ListBlobResult, "blobs"> {
+  blobs: ListBlobApiResponseBlob[];
+  folders?: string[];
+}
 
 // replacement of @vercel/blob list method to set the next cache tag
-export async function list(prefix?: string) {
+export async function list(prefix?: string): Promise<ListBlobResult> {
   const response = await fetch(
     `https://blob.vercel-storage.com${prefix ? `?prefix=${prefix}` : ""}`,
     {
@@ -16,7 +26,13 @@ export async function list(prefix?: string) {
     }
   );
 
-  const data = (await response.json()) as ListBlobResult;
+  const data = (await response.json()) as ListBlobApiResponse;
 
-  return data;
+  return {
+    ...data,
+    blobs: data.blobs.map((blob) => ({
+      ...blob,
+      uploadedAt: new Date(blob.uploadedAt),
+    })),
+  };
 }
