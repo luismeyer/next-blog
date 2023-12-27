@@ -17,12 +17,8 @@ export async function list(prefix?: string): Promise<ListBlobResult> {
   const response = await fetch(
     `https://blob.vercel-storage.com${prefix ? `?prefix=${prefix}` : ""}`,
     {
-      headers: {
-        Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`,
-      },
-      next: {
-        tags: ["posts"],
-      },
+      headers: { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` },
+      next: { tags: ["posts"] },
     }
   );
 
