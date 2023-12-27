@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { extname, resolve } from "path";
+import { extname } from "path";
 import { Suspense } from "react";
 
 import { parseFrontMatter } from "./front-matter";
 import { ViewCounter } from "./view-counter";
-import { list } from "@vercel/blob";
 import { postsBaseUrl } from "./url";
+import { list } from "./list";
 
 async function Post() {
   const { blobs } = await list();

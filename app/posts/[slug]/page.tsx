@@ -1,4 +1,3 @@
-import { head, list } from "@vercel/blob";
 import { serialize } from "next-mdx-remote/serialize";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -7,13 +6,14 @@ import { ClientMd } from "../client-md";
 import { parseFrontMatter } from "../front-matter";
 import { ViewCounter } from "../view-counter";
 import { postsBaseUrl } from "../url";
+import { list } from "../list";
 
 export default async function Slug({ params }: { params: { slug: string } }) {
   const { slug } = params;
 
   const {
     blobs: [blob],
-  } = await list({ prefix: slug });
+  } = await list(slug);
 
   const content = await fetch(blob.url).then((res) => res.text());
 
